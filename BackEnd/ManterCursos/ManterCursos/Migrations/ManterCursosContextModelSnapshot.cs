@@ -68,6 +68,13 @@ namespace ManterCursos.Migrations
                     b.Property<DateTime>("DataTermino")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("CursoId");
 
                     b.HasIndex("CategoriaId");
@@ -88,7 +95,7 @@ namespace ManterCursos.Migrations
                     b.Property<DateTime>("DataInclusao")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataUltimaAlteracao")
+                    b.Property<DateTime?>("DataUltimaAlteracao")
                         .HasColumnType("datetime2");
 
                     b.HasKey("LogId");

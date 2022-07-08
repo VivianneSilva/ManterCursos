@@ -44,13 +44,33 @@ namespace ManterCursos.Controllers
 
         // PUT: api/Logs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut]
-        public async Task<IActionResult> PutLog(Log log)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutLog(int id, Log log)
         {
-           _context.Log.Update(log);
-            await _context.SaveChangesAsync();
+            if (id != log.LogId)
+            {
+                return BadRequest();
+            }
 
-            return Ok();
+            _context.Entry(log).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!LogExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         // POST: api/Logs

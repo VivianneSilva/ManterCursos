@@ -132,3 +132,6 @@ C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\Mant
 C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\ManterCursos\obj\Debug\net5.0\ManterCursos.pdb
 C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\ManterCursos\obj\Debug\net5.0\ManterCursos.genruntimeconfig.cache
 C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\ManterCursos\obj\Debug\net5.0\ref\ManterCursos.dll
+C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\ManterCursos\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\ManterCursos\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\vivia\OneDrive\Área de Trabalho\ProjetoFinal\BackEnd\ManterCursos\ManterCursos\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

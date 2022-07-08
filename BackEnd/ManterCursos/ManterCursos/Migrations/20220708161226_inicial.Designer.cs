@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManterCursos.Migrations
 {
     [DbContext(typeof(ManterCursosContext))]
-    [Migration("20220706174729_inicial")]
+    [Migration("20220708161226_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,13 @@ namespace ManterCursos.Migrations
                     b.Property<DateTime>("DataTermino")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("CursoId");
 
                     b.HasIndex("CategoriaId");
@@ -90,7 +97,7 @@ namespace ManterCursos.Migrations
                     b.Property<DateTime>("DataInclusao")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataUltimaAlteracao")
+                    b.Property<DateTime?>("DataUltimaAlteracao")
                         .HasColumnType("datetime2");
 
                     b.HasKey("LogId");
