@@ -1,0 +1,15 @@
+.Logo{
+  max-height: 40px;
+  max-width: 60px;
+}
+.cornavbar{
+  background-image: linear-gradient(to right, rgb(19, 73, 68), rgb(8, 200, 213));
+}
+@media screen and (max-width: 500px) {
+  .offcanvas {
+    max-width: 230px;
+  }
+}
+.selected {
+  color: rgb(5, 100, 90);
+}
