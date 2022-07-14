@@ -1,3 +1,4 @@
+import { CategoriaService } from './categoria.service';
 import { CursosService } from './cursos/cursos.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,11 +13,13 @@ import { AppComponent } from './app.component';
 import { CursosComponent } from './cursos/cursos.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     CursosComponent,
     NavBarComponent
+
 
   ],
   imports: [
@@ -38,7 +41,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
       }
     )
   ],
-  providers: [HttpClientModule, CursosService],
+  providers: [HttpClientModule, CursosService, CategoriaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

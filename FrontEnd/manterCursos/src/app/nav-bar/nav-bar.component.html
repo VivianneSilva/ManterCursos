@@ -20,8 +20,14 @@
   aria-labelledby="offcanvasExampleLabel" style="width: 280px;">
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a class="nav-link link-dark"  routerLink="" data-bs-dismiss="offcanvas" *ngIf="navbarService.visibilidadeOpcoes">
-        <i class="bi bi-house-door-fill me-2"></i>
+      <a class="nav-link link-dark" routerLink="/Cursos" data-bs-dismiss="offcanvas" *ngIf="navbarService.visibilidadeOpcoes">
+        <i class="bi bi-card-list"></i>
         Cursos
       </a>
     </li>
+  </ul>
+</div>
+
+<router-outlet></router-outlet>
+
+

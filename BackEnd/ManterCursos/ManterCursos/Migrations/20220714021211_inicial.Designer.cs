@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManterCursos.Migrations
 {
     [DbContext(typeof(ManterCursosContext))]
-    [Migration("20220708161226_inicial")]
+    [Migration("20220714021211_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace ManterCursos.Migrations
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
+
+                    b.Property<int>("qtdAlunos")
+                        .HasColumnType("int");
 
                     b.HasKey("CursoId");
 

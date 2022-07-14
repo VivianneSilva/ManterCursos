@@ -3,7 +3,7 @@
   max-width: 60px;
 }
 .cornavbar{
-  background-image: linear-gradient(to right, rgb(19, 73, 68), rgb(8, 200, 213));
+  background-image: linear-gradient(to right, rgb(7, 124, 96), rgb(7, 117, 5));
 }
 @media screen and (max-width: 500px) {
   .offcanvas {

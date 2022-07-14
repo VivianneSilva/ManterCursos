@@ -1,53 +1,49 @@
 <br><br><br><br>
 <div class="container" style="display: flex; justify-content: end;">
   <button type="button" class="btn btn-outline-success" (click)="ExibirModalCadastro()" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Adicionar Curso <i class="bi bi-plus-lg"></i></button>
+    Adicionar  <i class="bi bi-plus-lg"></i></button>
 </div>
 <br><br><br>
+ <!--Compo de Pesquisa-->
 <div class="container">
-  <!--Compo de Pesquisa-->
   <div class="cabecaTabela input-group mb-2">
     <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
     <input class="form-control"  type="search" placeholder="Search" aria-label="Search" [(ngModel)]="search">
   </div>
-  <hr>
+  <hr />
   <!--Tabela de Exibicao-->
+  <div style="overflow: auto;">
   <table class="table">
     <thead>
       <tr>
         <th scope="col">N.Curso</th>
         <th scope="col">Descricao</th>
-        <th scope="col">DataInicio</th>
-        <th scope="col">DataTermino</th>
+        <th scope="col">Inscritos</th>
+        <th scope="col">Data Inicio</th>
+        <th scope="col">Data Termino</th>
         <th scope="col">Categoria</th>
-        <th scope="col">Status</th>
       </tr>
     </thead>
-    <tbody *ngIf="cursos && cursosFiltrados.length">
-      <tr *ngFor="let curso of cursosFiltrados; let i = index">
+    <tbody >
+      <tr *ngFor="let c of cursosFiltrados; let i = index">
         <th scope="row">{{ i + 1 }}</th>
-        <td>{{ curso.descricao }}</td>
-        <td>{{ curso.dataInicio }}</td>
-        <td>{{ curso.dataTermino }}</td>
-        <td>{{ curso.categoriaId }}</td>
-        <td>{{ curso.status }}</td>
+        <td>{{ c.descricao }}</td>
+        <td>{{c.qtdAlunos }}</td>
+        <td>{{ c.dataInicio.toString().split("T")[0] | date:'dd-MM-yyyy' }}</td>
+        <td>{{ c.dataTermino.toString().split("T")[0] | date:'dd-MM-yyyy' }}</td>
+        <td>{{ c.categoria.nome }}</td>
         <td style="display: flex">
-          <button type="button" class="btn btn-outline-danger me-2" (click)="alterarIdDeletar(curso.cursoId)" data-bs-toggle="modal" data-bs-target="#modalDelete"><i class="bi bi-trash"></i></button>
-          <button type="button" class="btn btn-outline-info" (click)="ExibirModalAtualizacao(curso.cursoId)" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="bi bi-pencil-square"></i></button>
+          <button type="button" class="btn btn-outline-danger me-2" (click)="alterarIdDeletar(c.cursoId)" data-bs-toggle="modal" data-bs-target="#modalDelete"><i class="bi bi-trash"></i></button>
+          <button type="button" class="btn btn-outline-info" (click)="ExibirModalAtualizacao(c.cursoId)" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="bi bi-pencil-square"></i></button>
         </td>
       </tr>
     </tbody>
-    <tfoot *ngIf="cursosFiltrados.length == 0">
-      <tr>
-        <td colspan="8">
-            <h4>Sem Registros</h4>
-        </td>
-      </tr>
-    </tfoot>
   </table>
+ </div>
 </div>
 
 <!--Modal Para inserir e atualizar-->
+<div class="container" >
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -58,48 +54,50 @@
       <div class="modal-body">
         <form [formGroup]="formulario" (ngSubmit)="EnviarFormulario()">
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Descricao:*</label>
+            <label for="exampleFormControlInput1" class="form-label">Descricao</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" required formControlName="descricao">
-            <div *ngIf="propriedade.descricao.touched && propriedade.descricao.invalid">
+            <div *ngIf="propriedade['descricao'].touched && propriedade['descricao'].invalid">
               <label style="color: red;">* Digite uma Descricao ! </label>
             </div>
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">DataInicio:*</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" required formControlName="dataInicio">
-            <div *ngIf="propriedade.dataInicio.touched && propriedade.dataInicio.invalid">
+            <label for="exampleFormControlInput2" class="form-label">Inscritos</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" required formControlName="qtdAlunos">
+             <div *ngIf="propriedade['qtdAlunos'].touched && propriedade['qtdAlunos'].invalid">
               <label style="color: red;">* Campo Obrigatorio ! </label>
             </div>
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">DataTermino:*</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" required formControlName="dataTermino">
-            <div *ngIf="propriedade.dataTermino.touched && propriedade.dataTermino.invalid">
+            <label for="exampleFormControlInput2" class="form-label">Data Inicio</label>
+            <input type="date" class="form-control" id="exampleFormControlInput1" required formControlName="dataInicio">
+             <div *ngIf="propriedade['dataInicio'].touched && propriedade['dataInicio'].invalid">
               <label style="color: red;">* Campo Obrigatorio ! </label>
             </div>
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Categoria:*</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" required formControlName="categoriaId">
-            <div *ngIf="propriedade.categoriaId.touched && propriedade.categoriaId.invalid">
+            <label for="exampleFormControlInput1" class="form-label">DataTermino</label>
+            <input type="date" class="form-control" id="exampleFormControlInput1" required formControlName="dataTermino">
+            <div *ngIf="propriedade['dataTermino'].touched && propriedade['dataTermino'].invalid">
               <label style="color: red;">* Campo Obrigatorio ! </label>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Status:*</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" required formControlName="status">
-            <div *ngIf="propriedade.status.touched && propriedade.status.invalid">
-              <label style="color: red;">* Campo Obrigatorio ! </label>
-            </div>
+          <div class="row g-2 mb-3">
+            <label fclass="formTexto">Categoria</label>
+            <select class="form-select select" id="floatingSelect" aria-label="Floating label select"
+              style="padding-left: 12px;" formControlName="categoriaId" >
+              <option *ngFor=" let c of categorias" [ngValue]="c.categoriaId"> {{ c.nome }} </option>
+            </select>
           </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="formulario.invalid">Salvar</button>
+            <button type="submit" class="btn btn-primary me-2" data-bs-dismiss="modal" [disabled]="formulario.invalid">Salvar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+</div>
 </div>
 
   <!--Modal de confirmação de delete-->
@@ -107,7 +105,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">Você realmente deseja deletar ?</h2>
+        <h4 class="modal-title">Deseja Excluir ?</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-footer">
@@ -117,6 +115,7 @@
     </div>
   </div>
 </div>
+
 
 
 

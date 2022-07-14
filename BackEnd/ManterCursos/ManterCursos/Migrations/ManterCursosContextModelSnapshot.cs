@@ -75,6 +75,9 @@ namespace ManterCursos.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<int>("qtdAlunos")
+                        .HasColumnType("int");
+
                     b.HasKey("CursoId");
 
                     b.HasIndex("CategoriaId");

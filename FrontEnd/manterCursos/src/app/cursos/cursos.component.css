@@ -1,3 +1,7 @@
 .formTexto{
   margin-right: 10px;
 }
+.cabecaTabela{
+  display: flex;
+  justify-content: space-between;
+}

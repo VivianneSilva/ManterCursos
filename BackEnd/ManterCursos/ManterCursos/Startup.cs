@@ -34,12 +34,14 @@ namespace ManterCursos
                 options => options.UseSqlServer(Configuration.GetConnectionString("Default"))
                 );
 
+           
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
+           
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -65,14 +67,15 @@ namespace ManterCursos
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }

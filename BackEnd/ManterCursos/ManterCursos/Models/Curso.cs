@@ -12,10 +12,10 @@ namespace ManterCursos.Models
         public DateTime DataInicio { get; set; }
         [Required(ErrorMessage = "Campo Obrigatorio !")]
         public DateTime DataTermino { get; set; }
-        
-        public Categoria Categoria { get; set; }
         [Required(ErrorMessage = "Campo Obrigatorio !")]
         public int CategoriaId { get; set; }
+        public Categoria Categoria { get; set; }
+        public int qtdAlunos { get; set; }
         public bool Status { get; set; } = true;
         
     }

@@ -25,7 +25,7 @@ namespace ManterCursos.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Curso>>> GetCurso()
         {
-            return await _context.Curso.Include(c => c.Categoria).Where(c => c.Status == true).ToListAsync();
+            return await _context.Curso.Where(x => x.Status == true).Include(x => x.Categoria).ToListAsync();
         }
 
         // GET: api/Cursos/5
@@ -44,33 +44,29 @@ namespace ManterCursos.Controllers
 
         // PUT: api/Cursos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCurso(int id, Curso curso)
+        [HttpPut]
+        public async Task<IActionResult> PutCurso(Curso curso)
         {
-            if (id != curso.CursoId)
+            var outrosCursos = (_context.Curso.Where(x => x.CursoId != curso.CursoId && x.Status == true));
+            if (outrosCursos.Any(c => 
+             (curso.DataInicio.Date >= c.DataInicio.Date && curso.DataInicio.Date <= c.DataTermino.Date) ||
+             (curso.DataTermino.Date >= c.DataInicio.Date && curso.DataTermino.Date <= c.DataTermino.Date)))
             {
-                return BadRequest();
+                return BadRequest(new { mensagem = "Existe(m) curso(s) planejado(s) dentro do periodo informado." });
             }
 
-            _context.Entry(curso).State = EntityState.Modified;
-
-            try
+            Log log = await _context.Log.SingleOrDefaultAsync(x => x.CursoId == curso.CursoId);
+            if (log != null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CursoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                log.DataUltimaAlteracao = DateTime.Now;
+                _context.Log.Update(log);
             }
 
-            return NoContent();
+
+            _context.Curso.Update(curso);
+            await _context.SaveChangesAsync();
+            return Ok();
+
         }
 
         // POST: api/Cursos
@@ -80,18 +76,20 @@ namespace ManterCursos.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(DateTime.Now > curso.DataInicio)
+                if(DateTime.Now.Date > curso.DataInicio.Date)
                 {
-                    return BadRequest(error: "Data Inicio não pode ser menor que a Data Atual");
+                    return BadRequest(error: "A Data de Inicio não pode ser menor que a Data Atual.");
                 }
-                if(curso.DataTermino < curso.DataInicio)
+                if(curso.DataTermino.Date < curso.DataInicio.Date)
                 {
-                    return BadRequest(error: "Data Final não pode ser menor que a Data de Inicio");
+                    return BadRequest(error: "A Data Final não pode ser menor que a Data de Inicio.");
                 }
-                if ()
+                if (_context.Curso.Where(x => x.CursoId != curso.CursoId && x.Status == true).Any(c => (c.DataInicio.Date < curso.DataTermino.Date && c.DataTermino.Date >= curso.DataTermino.Date) || (c.DataInicio.Date < curso.DataInicio.Date && c.DataTermino.Date > curso.DataInicio.Date))) 
                 {
+                    return BadRequest(new { mensagem = "Existe(m) curso(s) planejado(s) dentro do periodo informado." });
+                }
 
-                }
+
                 _context.Curso.Add(curso);
                 await _context.SaveChangesAsync();
                 CreatedAtAction("GetCurso", new { id = curso.CursoId }, curso);
@@ -102,15 +100,13 @@ namespace ManterCursos.Controllers
 
                 _context.Log.Add(log);
                 await _context.SaveChangesAsync();
-
                 return CreatedAtAction("GetCurso", new { id = curso.CursoId }, curso);
             }
-            return BadRequest(error:"Os campos não foram preenchidos corretamente !");
-            
 
-            
+            return BadRequest(error: "Os campos não foram preenchidos corretamente !");
+           
         }
-
+        
         // DELETE: api/Cursos/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCurso(int id)
@@ -120,9 +116,9 @@ namespace ManterCursos.Controllers
             {
                 return NotFound();
             }
-            if ((curso.DataTermino > DateTime.Now && DateTime.Now > curso.DataInicio) || DateTime.Now > curso.DataTermino)
+            if ((curso.DataTermino.Date >= DateTime.Now.Date && DateTime.Now.Date >= curso.DataInicio.Date) || DateTime.Now.Date > curso.DataTermino.Date)
             {
-                return BadRequest(error:"Erro123");
+                return BadRequest(error: "O Curso não pode ser Excluido");
             }
 
             curso.Status = false;
